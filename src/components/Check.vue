@@ -835,7 +835,7 @@
         <div style="max-height: 300px; overflow-y: auto">
           <a-checkbox-group v-model:value="selectedModels">
             <a-row :gutter="[16, 16]">
-              <a-col v-for="model in sortedModels" :key="model" :span="12">
+              <a-col v-for="model in filteredModels" :key="model" :span="12">
                 <a-checkbox :value="model" style="width: 100%">{{
                   model
                 }}</a-checkbox>
@@ -1417,6 +1417,14 @@ function onSelectAllChatOnly(e) {
     selectedModels.value = [];
   }
 }
+
+// 定义一个计算属性，用于计算筛选列表
+const filteredModels = computed(() => {
+  let prefix = prefixFilter.value.trim().toLowerCase();
+  return models.value.filter((model) =>
+    model.toLowerCase().includes(prefix)
+  );
+});
 
 function filterModels() {
   let prefix = prefixFilter.value.trim().toLowerCase();
